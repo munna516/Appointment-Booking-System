@@ -5,3 +5,108 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+model Service {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  duration    Int       // Minutes
+  price       Decimal   @db.Decimal(10, 2)
+  currency    String    @default("USD")
+  isActive    Boolean   @default(true)
+
+  bookings    Booking[]
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Booking {
+  id               String         @id @default(cuid())
+
+  serviceId        String
+  service          Service        @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  customerName     String
+  customerEmail    String
+  customerPhone    String?
+
+  bookingDate      DateTime
+  startTime        String
+  endTime          String
+
+  notes            String?
+
+  googleEventId    String?
+
+  status           BookingStatus  @default(PENDING)
+  paymentStatus    PaymentStatus  @default(PENDING)
+
+  payment          Payment?
+
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@index([bookingDate])
+  @@index([customerEmail])
+}
+
+model Payment {
+  id                     String         @id @default(cuid())
+
+  bookingId              String         @unique
+  booking                Booking        @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  stripePaymentIntentId  String         @unique
+
+  amount                 Decimal        @db.Decimal(10,2)
+  currency               String         @default("USD")
+
+  paymentMethod          String
+
+  status                 PaymentStatus  @default(PENDING)
+
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime       @updatedAt
+}
+
+model Contact {
+  id          String    @id @default(cuid())
+
+  name        String
+  email       String
+  phone       String?
+  subject     String?
+  message     String
+
+  createdAt   DateTime  @default(now())
+}
+
+model Availability {
+  id           String    @id @default(cuid())
+
+  dayOfWeek    Int
+
+  startTime    String
+  endTime      String
+
+  isAvailable  Boolean   @default(true)
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
