@@ -100,7 +100,7 @@ model Contact {
 model Availability {
   id           String    @id @default(cuid())
 
-  dayOfWeek    Int
+  date         DateTime  @db.Date
 
   startTime    String
   endTime      String
