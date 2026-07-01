@@ -9,8 +9,10 @@ export const constants = {
     gmail_app_password: process.env.GMAIL_APP_PASSWORD,
     admin_email: process.env.ADMIN_EMAIL,
     
-    // Google Calendar Credentials
-    google_client_id: process.env.GOOGLE_CLIENT_ID,
-    google_client_secret: process.env.GOOGLE_CLIENT_SECRET,
-    google_refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
+    // Stripe
+    stripe_secret_key: process.env.STRIPE_SECRET_KEY,
+    stripe_webhook_secret: process.env.STRIPE_WEBHOOK_SECRET,
+    
+    // Resend
+    resend_api_key: process.env.RESEND_API_KEY,
 }

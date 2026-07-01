@@ -52,8 +52,6 @@ model Booking {
 
   notes            String?
 
-  googleEventId    String?
-
   status           BookingStatus  @default(PENDING)
   paymentStatus    PaymentStatus  @default(PENDING)
 

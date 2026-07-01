@@ -1,0 +1,3 @@
+
+stripe listen --forward-to localhost:3000/api/v1/webhooks/stripe
+stripe payment_intents confirm pi_3ToEFnBkAPbqywnB1R25HiDZ --payment-method pm_card_visa --return-url "http://localhost:3000/payment-success"
