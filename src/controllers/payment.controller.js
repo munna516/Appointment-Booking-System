@@ -30,7 +30,7 @@ export const paymentController = {
                 return res.status(409).json({ error: error.message });
             }
 
-            return res.status(500).json({ error: "Failed to create payment intent" });
+            return res.status(500).json({ error: error.message || "Failed to create payment intent" });
         }
     },
 
